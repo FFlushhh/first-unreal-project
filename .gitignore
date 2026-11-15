@@ -1,0 +1,44 @@
+﻿
+# ========================================
+# Unreal Engine 5
+# ========================================
+
+# Generated build outputs
+**/Binaries/
+**/Intermediate/
+
+# Generated caches and local data
+**/DerivedDataCache/
+**/Saved/
+
+# ========================================
+# Rider / Visual Studio
+# ========================================
+
+.idea/
+.vs/
+.vscode/
+
+*.sln
+*.slnx
+*.suo
+*.VC.db
+*.VC.opendb
+*.opensdf
+*.sdf
+*.DotSettings.user
+
+# ========================================
+# Operating system
+# ========================================
+
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ========================================
+# Local temporary files
+# ========================================
+
+*.tmp
+*.log
