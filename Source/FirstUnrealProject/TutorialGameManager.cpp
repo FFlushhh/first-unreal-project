@@ -30,9 +30,6 @@ void ATutorialGameManager::BeginPlay()
 
 	CollectedCoins = 0;
 	bGameCleared = false;
-
-	// 進捗を表示
-	ShowProgress();
 }
 
 // Coinから呼び出される、ゲームの進行管理の中心となる処理
@@ -47,8 +44,8 @@ void ATutorialGameManager::CollectCoin()
 	// 取得枚数を1増やす
 	++CollectedCoins;
 
-	// 画面のカウント表示を更新
-	ShowProgress();
+	// 変更された取得枚数をBlueprintへ通知
+	OnCoinCountChanged(CollectedCoins, RequiredCoins);
 
 	// クリア条件を判定
 	if (CollectedCoins >= RequiredCoins)
@@ -79,37 +76,6 @@ void ATutorialGameManager::CollectCoin()
 
 		UE_LOG(LogTemp, Log, TEXT("Game Clear!"));
 	}
-}
-
-void ATutorialGameManager::ShowProgress() const
-{
-	// ゲームエンジンの参照を確認
-	if (!GEngine)
-	{
-		return;
-	}
-
-	/*
-	 * FString ... UEで使用される文字列型
-	 * 
-	 * FString::Printf()
-	 */
-	const FString Message = FString::Printf(
-		TEXT("Coins: %d / %d"),
-		CollectedCoins,
-		RequiredCoins
-	);
-
-	// 同じメッセージIDを使用して表示を更新
-	GEngine->AddOnScreenDebugMessage(
-		10001,
-		3600.0f,
-		FColor::Yellow,
-		Message
-	);
-	/*
-	 * 同じ進捗メッセージを更新するときに、同じIDを使用する
-	 */
 }
 
 /*

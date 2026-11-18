@@ -18,6 +18,14 @@ public:
 	// コインを取得した際に呼ばれる
 	void CollectCoin();
 
+	/*
+	 * UFUNCTION() ... C++の関数をUEのリフレクションシステムへ登録するためのマクロ
+	 *				   C++から呼び出せるが、実際の処理内容はBlueprint側で定義する
+	 */
+	// コインの取得枚数が変化したことをBlueprintに通知する
+	UFUNCTION(BlueprintImplementableEvent, Category = "Coin Game")
+	void OnCoinCountChanged(int32 CurrentCoins, int32 TotalCoins);
+
 protected:
 	// ゲーム開始時に一度だけ実行される
 	virtual void BeginPlay() override;
@@ -34,9 +42,6 @@ protected:
 private:
 	// クリア処理の重複実行を防ぐ
 	bool bGameCleared = false;
-
-	// 進捗を画面に表示する
-	void ShowProgress() const;
 };
 
 
