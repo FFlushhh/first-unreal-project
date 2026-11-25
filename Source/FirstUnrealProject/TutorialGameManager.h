@@ -21,10 +21,19 @@ public:
 	/*
 	 * UFUNCTION() ... C++の関数をUEのリフレクションシステムへ登録するためのマクロ
 	 *				   C++から呼び出せるが、実際の処理内容はBlueprint側で定義する
+	*				    指定子						役割
+						BlueprintCallable			BlueprintからC++の関数を呼び出せるようにする
+						BlueprintPure				Blueprint上で実行ピンを持たない純粋関数として扱う
+						BlueprintImplementableEvent	C++で宣言し、Blueprintで処理を実装する
+						BlueprintNativeEvent		C++に標準の処理を実装し、Blueprintで上書きできるようにする
 	 */
 	// コインの取得枚数が変化したことをBlueprintに通知する
 	UFUNCTION(BlueprintImplementableEvent, Category = "Coin Game")
 	void OnCoinCountChanged(int32 CurrentCoins, int32 TotalCoins);
+
+	// ゲームクリアが成立したことをBlueprintに通知する
+	UFUNCTION(BlueprintImplementableEvent, Category = "Coin Game")
+	void OnGameCleared();
 
 protected:
 	// ゲーム開始時に一度だけ実行される

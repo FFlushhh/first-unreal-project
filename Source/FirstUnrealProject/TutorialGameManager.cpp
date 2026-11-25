@@ -3,7 +3,6 @@
 #include "TutorialGameManager.h"		// 自分自身のクラス定義
 
 #include "Components/SceneComponent.h"	// USceneComponentを使用する
-#include "Engine/Engine.h"				// GEngineやエンジンの機能を使用する
 
 // コンストラクタ
 ATutorialGameManager::ATutorialGameManager()
@@ -52,27 +51,8 @@ void ATutorialGameManager::CollectCoin()
 	{
 		bGameCleared = true;
 
-		/*
-		 * GEngine ... UEのエンジンオブジェクトを参照するグローバルポインタ
-		 *			   画面上のデバッグメッセージ表示などに利用
-		 */
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(
-				10002,
-				15.0f,
-				FColor::Green,
-				TEXT("GAME CLEAR! All coins collected!")
-			);
-			
-			/* 
-			定義
-			void UEngine::AddOnScreenDebugMessage(int32 Key, float TimeToDisplay, FColor DisplayColor, const FString& DebugMessage, bool bNewerOnTop, const FVector2D& TextScale)
-			{
-				AddOnScreenDebugMessage((uint64)Key, TimeToDisplay, DisplayColor, DebugMessage, bNewerOnTop, TextScale);
-			}
-			*/
-		}
+		// Blueprintにゲームクリアを通知
+		OnGameCleared();
 
 		UE_LOG(LogTemp, Log, TEXT("Game Clear!"));
 	}
