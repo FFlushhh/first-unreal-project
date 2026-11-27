@@ -1,8 +1,8 @@
 /* コインの取得枚数管理とクリア判定 */
 
 #include "TutorialGameManager.h"		// 自分自身のクラス定義
-
 #include "Components/SceneComponent.h"	// USceneComponentを使用する
+#include "kismet/GameplayStatics.h"
 
 // コンストラクタ
 ATutorialGameManager::ATutorialGameManager()
@@ -56,6 +56,60 @@ void ATutorialGameManager::CollectCoin()
 
 		UE_LOG(LogTemp, Log, TEXT("Game Clear!"));
 	}
+}
+
+void ATutorialGameManager::RestartGame()
+{
+	// ゲームクリア前のリスタート防止
+	if (!bGameCleared)
+	{
+		return;
+	}
+	
+	// 現在プレイしているレベルの名前を取得
+	const FString CurrentLevelName =
+		UGameplayStatics::GetCurrentLevelName(this, true);
+	/*
+		型			主な用途					特徴
+		FString		文字列の生成・編集			文字列操作に適している
+		FName		名前・識別子				名前の比較や識別に適している
+		FText		プレイヤー向けの表示文字	ローカライズに対応
+	 */
+	
+	// レベル名を取得できなかった場合は処理を中断
+	if (CurrentLevelName.IsEmpty())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to get current level name."));
+		return;
+	}
+	
+	// リスタートするレベル名をログに出力
+	UE_LOG(
+		LogTemp,
+		Log,
+		TEXT("Restarting level: %s"),
+		*CurrentLevelName
+	);
+	
+	// 現在のレベルを再読み込みする
+	UGameplayStatics::OpenLevel(
+		this,
+		FName(*CurrentLevelName) // FStringをFNameにキャスト
+	);
+	/*
+	OpenLevel() ... 指定したレベルへ遷移する関数
+	static void OpenLevel(
+		const UObject* WorldContextObject,
+		FName LevelName,
+		bool bAbsolute = true,
+		FString Options = FString(TEXT(""))
+	);
+	引数					役割										今回の値
+	WorldContextObject	対象ワールドを特定する						this
+	LevelName			開くレベルの名前							現在のレベル名
+	bAbsolute			現在のレベルのURLオプションを引き継ぐかどうか	true（デフォルト）
+	Options				レベル遷移時の追加オプション				空文字列（デフォルト）
+	*/
 }
 
 /*
