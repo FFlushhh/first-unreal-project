@@ -34,7 +34,11 @@ public:
 	// ゲームクリアが成立したことをBlueprintに通知する
 	UFUNCTION(BlueprintImplementableEvent, Category = "Coin Game")
 	void OnGameCleared();
-
+	
+	// 現在のレベルを再読み込みする
+	UFUNCTION(BlueprintCallable, Category = "Coin Game")
+	void RestartGame();
+	
 protected:
 	// ゲーム開始時に一度だけ実行される
 	virtual void BeginPlay() override;
